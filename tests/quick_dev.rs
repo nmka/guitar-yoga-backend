@@ -8,3 +8,10 @@ async fn quick_dev() -> Result<()> {
     hc.do_get("/hello?name=Jen").await?.print().await?;
     Ok(())
 }
+
+#[tokio::test]
+async fn quick_dev2() -> Result<()> {
+    let hc = httpc_test::new_client("http://localhost:8080")?;
+    hc.do_get("/hello2/Jen").await?.print().await?;
+    Ok(())
+}
