@@ -25,7 +25,7 @@ async fn main() {
     let routes_all = Router::new()
         .merge(web::routes_login::routes())
         .merge(web::routes_hello::routes_hello())
-        .nest("/api", web::routes_tickets::routes(mc.clone()))
+        .nest("/api", web::routes_tickets::routes(mc.unwrap().clone()))
         .layer(middleware::map_response(main_response_mapp))
         .layer(CookieManagerLayer::new())
         .fallback_service(routes_static());
