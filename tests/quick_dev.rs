@@ -15,13 +15,6 @@ async fn quick_dev() -> Result<()> {
 #[tokio::test]
 async fn quick_dev2() -> Result<()> {
     let hc = httpc_test::new_client("http://localhost:8080")?;
-    hc.do_get("/hello2/Jen").await?.print().await?;
-    Ok(())
-}
-
-#[tokio::test]
-async fn login() -> Result<()> {
-    let hc = httpc_test::new_client("http://localhost:8080")?;
 
     let login_req = hc.do_post(
         "/api/login",
@@ -32,5 +25,38 @@ async fn login() -> Result<()> {
     );
 
     login_req.await?.print().await?;
+    Ok(())
+}
+
+#[tokio::test]
+async fn quick_dev3() -> Result<()> {
+    let hc = httpc_test::new_client("http://localhost:8080")?;
+
+    let login_req = hc.do_post(
+        "/api/login",
+        json!({
+            "username": "demo1",
+            "pwd": "welcomeDD"
+        }),
+    );
+
+    login_req.await?.print().await?;
+    Ok(())
+}
+
+#[tokio::test]
+async fn quick_dev4() -> Result<()> {
+    let hc = httpc_test::new_client("http://localhost:8080")?;
+    let req_create_ticket = hc.do_post(
+        "/api/tickets",
+        json!({
+            "title": "Ticket AAA"
+        }),
+    );
+
+    req_create_ticket.await?.print().await?;
+
+    hc.do_get("/api/tickets").await?.print().await?;
+
     Ok(())
 }
