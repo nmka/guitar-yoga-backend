@@ -22,10 +22,13 @@ mod web;
 async fn main() {
     let mc = ModelController::new().await;
 
+    let routes_api = web::routes_tickets::routes(mc.unwrap().clone())
+        .route_layer(middleware::from_fn(web::mw_auth::mw_require_auth));
+
     let routes_all = Router::new()
         .merge(web::routes_login::routes())
         .merge(web::routes_hello::routes_hello())
-        .nest("/api", web::routes_tickets::routes(mc.unwrap().clone()))
+        .nest("/api", routes_api)
         .layer(middleware::map_response(main_response_mapp))
         .layer(CookieManagerLayer::new())
         .fallback_service(routes_static());
